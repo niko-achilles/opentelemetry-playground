@@ -1,4 +1,4 @@
-# Fullstach Observability with Opentelementry
+# Fullstack Observability with Opentelementry
 
 ## Description
 

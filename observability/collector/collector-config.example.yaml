@@ -6,10 +6,15 @@ receivers:
       http:
 
 # define exporters, eg. jaeger
+# if you use logzio, define logzio
 exporters:
   jaeger:
     endpoint: jaeger-all-in-one:14250
     insecure: true
+  # UNCOMMENT after you setup a logzio account and get a logzio tracing token
+  logzio:
+    account_token: "your-token"
+    region: "your-region"
 
 # define span processors
 processors:
@@ -22,3 +27,5 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [jaeger]
+      # OR use as exporters in case of logzio
+      # exporters: [jaeger,logzio]

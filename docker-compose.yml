@@ -22,6 +22,9 @@ services:
       - PGPORT=5432
       - COLLECTOR_HOST=collector
       - COLLECTOR_PORT=55681
+      - APP_NAME=story_views_api
+    volumes:
+      - ./api/:/api
     ports:
       - "5000:5000"
     depends_on:
@@ -40,7 +43,8 @@ services:
 
   collector:
     image: otel/opentelemetry-collector-contrib:0.17.0
-    command: ["--config=/conf/collector-config.yaml", "--log-level=DEBUG"]
+    # command: ["--config=/conf/collector-config.yaml", "--log-level=DEBUG"]
+    command: ["--config=/conf/collector-config.yaml"]
     volumes:
       - ./observability/collector/collector-config.yaml:/conf/collector-config.yaml
     ports:

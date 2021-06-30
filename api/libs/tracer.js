@@ -14,12 +14,14 @@ const { Resource } = require("@opentelemetry/resources");
 const { ResourceAttributes } = require("@opentelemetry/semantic-conventions");
 
 // Note functionally required but gives some insight what happens behind the scenes
-const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+// const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
+// diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
-module.exports = (name) => {
+const { trace } = require("@opentelemetry/api");
+
+module.exports = (name = "") => {
   const resource = new Resource({
-    [ResourceAttributes.SERVICE_NAME]: name,
+    [ResourceAttributes.SERVICE_NAME]: name || keys.appName,
   });
 
   const provider = new NodeTracerProvider({ resource });
@@ -37,11 +39,13 @@ module.exports = (name) => {
   // const url = `http://${keys.collectorHost}:${keys.collectorPort}`;
 
   const exporter = new CollectorTraceExporter({
-    url: `http://${keys.collectorHost}:${keys.collectorPort}/v1/trace`, // url is optional and can be omitted - default is http://localhost:55681/v1/trace
+    url: `http://${keys.collectorHost}:${keys.collectorPort}/v1/trace`,
   });
 
   provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
   provider.register();
+
+  return trace.getTracer(name || keys.appName);
 };

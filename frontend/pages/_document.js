@@ -34,7 +34,6 @@ class MyDocument extends Document {
             content="/favicons/browserconfig.xml"
             name="msapplication-config"
           />
-         
         </Head>
         <body className="bg-white text-black">
           <Main />

@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-require("./libs/tracer")("story-views-api");
+const tracer = require("./libs/tracer")();
 
 const keys = require("./keys");
 
@@ -10,9 +9,6 @@ const cors = require("cors");
 const { Pool } = require("pg");
 
 const openTelemetryAPI = require("@opentelemetry/api");
-
-const tracer = openTelemetryAPI.trace.getTracer("storyViewsApi", "1.0");
-console.log("tracer", tracer);
 
 const app = express();
 app.use(cors());
@@ -32,61 +28,78 @@ app.get("/", (req, res) => {
 app.get("/views/:id", async (req, res) => {
   const id = req.params.id;
 
+  const currentSpan = openTelemetryAPI.trace.getSpan(
+    openTelemetryAPI.context.active()
+  );
+
+  currentSpan.setAttribute("story-Id", id);
+
   const view = await pgClient.query(
     `SELECT views from STORY_VIEWS WHERE id=$1`,
     [id]
   );
 
-  console.log(`Fetching view with id:${id} and value: ${view?.rows[0]}`);
-  console.log(JSON.stringify({ views: view?.rows[0]?.views }));
+  currentSpan.setAttribute("views", view?.rows[0]?.views || "none :-|");
+
   res.send(JSON.stringify({ views: view?.rows[0]?.views }));
 });
 
 app.post("/views/:id", async (req, res) => {
   const id = req.params.id;
 
-  const registerViewsSpan = tracer.startSpan("get-view-by-id", {
+  const registerViewsSpan = tracer.startSpan("register - view by story id", {
     kind: openTelemetryAPI.SpanKind.CLIENT,
   });
 
-  let response;
-
-  const currentView = await openTelemetryAPI.context.with(
+  const response = await openTelemetryAPI.context.with(
     openTelemetryAPI.trace.setSpan(
       openTelemetryAPI.context.active(),
       registerViewsSpan
     ),
-    () => {
-      return pgClient.query(`SELECT views from STORY_VIEWS WHERE id=$1`, [id]);
-    }
+    async () => await registerView(id)
   );
 
+  res.send(JSON.stringify({ views: response.rows[0].views }));
+});
+
+const registerView = async (id) => {
+  const currentSpan = openTelemetryAPI.trace.getSpan(
+    openTelemetryAPI.context.active()
+  );
+
+  let result;
+  const currentView = await pgClient.query(
+    `SELECT views from STORY_VIEWS WHERE id=$1`,
+    [id]
+  );
   if (currentView.rowCount > 0) {
     const { views } = currentView.rows[0];
     const value = views + 1;
-    response = await pgClient.query(
+    result = await pgClient.query(
       `UPDATE STORY_VIEWS SET views=$1 WHERE id=$2 RETURNING views`,
       [value, id]
     );
   } else {
-    response = await pgClient.query(
+    result = await pgClient.query(
       `INSERT INTO STORY_VIEWS(id, views) VALUES($1, $2) RETURNING views`,
       [id, 1]
     );
   }
 
-  console.log(`Registered view with id:${id} and value: ${response.rows[0]}`);
-  console.log(JSON.stringify({ views: response.rows[0].views }));
+  currentSpan.setAttribute("story-Id", id);
+  currentSpan.setAttribute("story-views", currentView?.rows[0]?.views);
 
-  registerViewsSpan.setStatus(openTelemetryAPI.SpanStatusCode.OK);
-  registerViewsSpan.end();
+  currentSpan.setStatus({ code: openTelemetryAPI.SpanStatusCode.OK });
+  currentSpan.end();
 
-  res.send(JSON.stringify({ views: response.rows[0].views }));
-});
+  return result;
+};
 
 app.listen(5000, (err) => {
   if (err) {
+    // eslint-disable-next-line no-console
     console.log(err);
   }
-  console.log("Listening");
+  // eslint-disable-next-line no-console
+  console.log("Story Views API is listening...");
 });

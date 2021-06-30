@@ -4,6 +4,10 @@ receivers:
     protocols:
       grpc:
       http:
+        # USE FOR CORS
+        # cors_allowed_origins:
+        #   - http://*
+        #   - https://*
 
 # define exporters, eg. jaeger
 # if you use logzio, define logzio

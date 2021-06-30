@@ -1,17 +1,21 @@
+# define receivers, eg. otlp with supported protocols grpc, http
 receivers:
   otlp:
     protocols:
       grpc:
       http:
 
+# define exporters, eg. jaeger
 exporters:
   jaeger:
     endpoint: jaeger-all-in-one:14250
     insecure: true
 
+# define span processors
 processors:
   batch:
 
+# define services and pipelines for traces
 service:
   pipelines:
     traces:

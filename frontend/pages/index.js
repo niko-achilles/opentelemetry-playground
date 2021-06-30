@@ -20,7 +20,7 @@ export default function Home({ stories }) {
       <Head>
         <title>Stories - Niko Achilles Kokkinos</title>
         <meta
-          content="Playground of stories and serverless technologies"
+          content="Playground of stories and observability tools"
           name="description"
         />
       </Head>
@@ -35,12 +35,12 @@ export default function Home({ stories }) {
             <h1 className="mt-6 text-2xl font-semibold text-gray-700 sm:mt-8 sm:text-4xl lg:text-3xl xl:text-4xl">
               Playground of stories and
               <br className="hidden lg:inline" />{" "}
-              <span className="text-red-700">serverless technologies</span>
+              <span className="text-red-700">observability tools</span>
             </h1>
             <p className="mt-2 text-gray-600 sm:mt-4 sm:text-xl">
               Hi. This is a digital playground. Writing online stories, mostly
-              about web development, software architecture and serverless
-              technologies
+              about web development, software architecture and observability
+              tools
             </p>
           </div>
         </div>

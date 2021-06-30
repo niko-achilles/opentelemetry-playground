@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  postgres:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+    depends_on:
+      - collector
+
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./api
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+      - COLLECTOR_HOST=collector
+      - COLLECTOR_PORT=55681
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+      - collector
+
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+      - collector
+
+  collector:
+    image: otel/opentelemetry-collector-contrib:0.17.0
+    command: ["--config=/conf/collector-config.yaml", "--log-level=DEBUG"]
+    volumes:
+      - ./observability/collector/collector-config.yaml:/conf/collector-config.yaml
+    ports:
+      # - "9464:9464"
+      # - "4317:4317"
+      - "55681:55681"
+    depends_on:
+      - jaeger-all-in-one
+
+  jaeger-all-in-one:
+    build:
+      dockerfile: Dockerfile
+      context: ./observability/jaeger
+    ports:
+      - "16686:16686"
+      - "14268"
+      - "14250"

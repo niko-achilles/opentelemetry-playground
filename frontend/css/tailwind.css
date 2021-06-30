@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .prose > :first-child {
+    margin-top: 1.25em !important;
+    margin-bottom: 1.25em !important;
+  }
+}
+
+.sticky-nav {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  backdrop-filter: saturate(180%) blur(20px);
+  transition: background-color 0.1 ease-in-out;
+}
+
+.main {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  margin: calc(25vh - 115px) 0;
+}
+
+.step {
+  min-height: 100px;
+  background: white;
+  margin: 0 10px 50px 20px;
+  box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
+    0 3px 7px -3px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 32px;
+
+  transition: opacity 0.5s;
+}
+
+.sticker {
+  width: 320px;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sticker > div {
+  position: fixed;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sticker > div > span {
+  font-size: 120px;
+}
+
+.sticker img {
+  width: 300px;
+}

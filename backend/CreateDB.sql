@@ -1,0 +1,4 @@
+CREATE TABLE STORY_VIEWS (
+    id VARCHAR(50) PRIMARY KEY,
+    views INT
+);

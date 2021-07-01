@@ -2,7 +2,7 @@
 
 ## Introduction
 
-![Components Diagram](./docu/intro/diagram.png)
+![Components Diagram](./diagram.png)
 
 ### Opentelemetry with Node.js
 

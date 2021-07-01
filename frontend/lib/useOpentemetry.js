@@ -12,7 +12,7 @@ import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
 
-export default function (name) {
+const useOpentelemetry = (name) => {
   const resource = new Resource({
     [ResourceAttributes.SERVICE_NAME]: name,
   });
@@ -42,4 +42,6 @@ export default function (name) {
     instrumentations,
     tracerProvider: providerWithZone,
   });
-}
+};
+
+export default useOpentelemetry;

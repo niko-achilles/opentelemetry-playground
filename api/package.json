@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "dev": "nodemon",
+    "prestart": "lint",
     "start": "node index.js"
   },
   "keywords": [],

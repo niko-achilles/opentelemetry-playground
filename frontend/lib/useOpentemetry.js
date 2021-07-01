@@ -42,6 +42,4 @@ export default function (name) {
     instrumentations,
     tracerProvider: providerWithZone,
   });
-
-  // return trace.getTracer(name);
 }

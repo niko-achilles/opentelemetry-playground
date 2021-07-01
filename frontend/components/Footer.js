@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="flex flex-col items-center">
         <div className="flex mb-2 space-x-2 text-sm text-gray-500">
           <div>Created with love ♥ by </div>
-          <Link href="https://github.com/niko-achilles/nextjs-tailwind-aws">
+          <Link href="https://github.com/niko-achilles/otlp-logzio-fullstack">
             Niko Achilles Kokkinos
           </Link>
           <div>{` • `}</div>

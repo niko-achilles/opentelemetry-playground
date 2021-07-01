@@ -1,6 +1,10 @@
-const tracer = require("./libs/tracer")();
-
 const keys = require("./keys");
+
+const tracer = require("./libs/useOpentelemetry")(
+  keys.appName,
+  keys.collectorHost,
+  keys.collectorPort
+);
 
 const express = require("express");
 

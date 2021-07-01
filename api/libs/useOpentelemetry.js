@@ -1,5 +1,5 @@
 "use strict";
-const keys = require("../keys");
+
 const { NodeTracerProvider } = require("@opentelemetry/node");
 const { BatchSpanProcessor } = require("@opentelemetry/tracing");
 
@@ -12,16 +12,15 @@ const { CollectorTraceExporter } = require("@opentelemetry/exporter-collector");
 
 const { Resource } = require("@opentelemetry/resources");
 const { ResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { trace } = require("@opentelemetry/api");
 
-// Note functionally required but gives some insight what happens behind the scenes
+// Logger gives some insight what happens behind the scenes
 // const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
 // diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
-const { trace } = require("@opentelemetry/api");
-
-module.exports = (name = "") => {
+module.exports = (name = "", collectorHost, collectorPort) => {
   const resource = new Resource({
-    [ResourceAttributes.SERVICE_NAME]: name || keys.appName,
+    [ResourceAttributes.SERVICE_NAME]: name,
   });
 
   const provider = new NodeTracerProvider({ resource });
@@ -39,7 +38,7 @@ module.exports = (name = "") => {
   // const url = `http://${keys.collectorHost}:${keys.collectorPort}`;
 
   const exporter = new CollectorTraceExporter({
-    url: `http://${keys.collectorHost}:${keys.collectorPort}/v1/trace`,
+    url: `http://${collectorHost}:${collectorPort}/v1/trace`,
   });
 
   provider.addSpanProcessor(new BatchSpanProcessor(exporter));
@@ -47,5 +46,5 @@ module.exports = (name = "") => {
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
   provider.register();
 
-  return trace.getTracer(name || keys.appName);
+  return trace.getTracer(name);
 };

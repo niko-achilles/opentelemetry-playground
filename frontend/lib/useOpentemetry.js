@@ -4,9 +4,14 @@ import {
   BatchSpanProcessor,
 } from "@opentelemetry/tracing";
 import { WebTracerProvider } from "@opentelemetry/web";
-import { ZoneContextManager } from "@opentelemetry/context-zone";
+
+// not using context manager at the moment, because of the warning
+// "@opentelemetry/auto-instrumentations-web > @opentelemetry/instrumentation-user-interaction@0.22.0"
+// has unmet peer dependency "zone.js@0.11.4"
+// import { ZoneContextManager } from "@opentelemetry/context-zone";
 import { CollectorTraceExporter } from "@opentelemetry/exporter-collector";
-import { B3Propagator } from "@opentelemetry/propagator-b3";
+
+import { JaegerPropagator } from "@opentelemetry/propagator-jaeger";
 import { getWebAutoInstrumentations } from "@opentelemetry/auto-instrumentations-web";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
@@ -17,30 +22,28 @@ const useOpentelemetry = (name) => {
     [ResourceAttributes.SERVICE_NAME]: name,
   });
 
-  const providerWithZone = new WebTracerProvider({ resource });
+  const provider = new WebTracerProvider({ resource });
 
-  providerWithZone.addSpanProcessor(
+  provider.addSpanProcessor(
     new BatchSpanProcessor(new CollectorTraceExporter())
   );
 
-  providerWithZone.addSpanProcessor(
-    new SimpleSpanProcessor(new ConsoleSpanExporter())
-  );
+  provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
-  providerWithZone.register({
-    contextManager: new ZoneContextManager(),
-    propagator: new B3Propagator(),
+  provider.register({
+    propagator: new JaegerPropagator(),
   });
+
   const instrumentations = getWebAutoInstrumentations({
     "@opentelemetry/instrumentation-xml-http-request": {
       ignoreUrls: [/localhost/],
-      propagateTraceHeaderCorsUrls: ["http://localhost:8090"],
+      propagateTraceHeaderCorsUrls: ["http://localhost:3000"],
     },
   });
 
   registerInstrumentations({
     instrumentations,
-    tracerProvider: providerWithZone,
+    tracerProvider: provider,
   });
 };
 

@@ -225,3 +225,13 @@ One unified SaaS platform to collect and analyze logs, metrics, and traces, plus
   Based on Jeager
 
 See documentation here for details: [opentemetry](./frontend/data/stories/opentelemetry.mdx)
+
+## Known warnings
+
+1. Opentelemetry for Javascript in Browsers
+
+investigate on opentelemetry repo what impact the foolowing warning has:
+
+```
+warning "@opentelemetry/auto-instrumentations-web > @opentelemetry/instrumentation-user-interaction@0.22.0" has unmet peer dependency "zone.js@0.11.4"
+```

@@ -70,6 +70,12 @@ You should see similar to this:
 
 ![](./frontend/public/images/api-postgres-tracing-data.png)
 
+Command:  
+Select `NEXTJS APP` and hit on `find traces`.  
+You should see similar to this:
+
+![](./frontend/public/images/frontend-tracing-data.png)
+
 Frontend tracing data in the browser console
 
 Command:  
@@ -78,7 +84,7 @@ Open `Web developer tools`, `console` tab.
 
 You should see similar to this:
 
-![](./frontend/public/images/frontend-with-tracing-data.png)
+![](./frontend/public/images/frontend-with-tracing-data-console.png)
 
 #### 4. Stopping containers
 

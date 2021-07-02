@@ -236,6 +236,8 @@ investigate on opentelemetry repo what impact the following warning has:
 warning "@opentelemetry/auto-instrumentations-web > @opentelemetry/instrumentation-user-interaction@0.22.0" has unmet peer dependency "zone.js@0.11.4"
 ```
 
+Because of the warning i do not use `ZoneContextManager` as `commented on code` [here](./frontend/lib/useOpentemetry.js#L11)
+
 ## Todo(s)
 
 - learn more about openetelemetry/web

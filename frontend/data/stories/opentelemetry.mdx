@@ -1,0 +1,80 @@
+---
+title: "Opentelemetry"
+publishedAt: "2021-07-02"
+summary: "Openetemetry data for tracing"
+tags: "Opentelemtry, collector"
+cover: "/images/opentelemetry.png"
+---
+
+### Opentelemetry Collector
+
+version of Collector: otel/opentelemetry-collector-contrib:0.17.0
+
+As described in the [Opentelemetry Documentation](https://opentelemetry.io/docs/concepts/components/)  
+The OpenTelemetry Collector offers a vendor-agnostic implementation on how to receive, process, and export telemetry data. It removes the need to run, operate, and maintain multiple agents/collectors in order to support open-source observability data formats (e.g. Jaeger, Prometheus, etc.) sending to one or more open-source or commercial back-ends. The Collector is the default location instrumentation libraries export their telemetry data.
+
+`Only` tracing is configured for telemetry at the moment.
+The Collector configuration is located [here](https://github.com/niko-achilles/otlp-logzio-fullstack/blob/main/observability/collector/collector-config.example.yaml)
+
+```yml
+# define receivers, eg. otlp with supported protocols grpc, http
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+        # USE FOR CORS
+        # cors_allowed_origins:
+        #   - http://*
+        #   - https://*
+
+# define exporters, eg. jaeger
+# if you use logzio, define logzio
+exporters:
+  jaeger:
+    endpoint: jaeger-all-in-one:14250
+    insecure: true
+  # setup a logzio account and get a logzio tracing token
+  logzio:
+    account_token: "your-token"
+    region: "your-region"
+
+# define span processors
+processors:
+  batch:
+
+# define services and pipelines for traces
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [jaeger]
+      # OR use as exporters in case you have a logzio account
+      # exporters: [jaeger,logzio]
+```
+
+##### Jaeger
+
+Jaeger for tracing  
+version of Jaeger: jaegertracing/all-in-one:latest
+Jaeger is accessible at: http://localhost:16686/
+
+##### Logzio
+
+`Logzio` for tracing additionally to local `Jaeger`.  
+Start a free trial at [Logz.io](https://logz.io/freetrial/)
+
+Why Logzio ?
+
+With `Logz.io` you can have the best-of-breed open source monitoring tools on a `fully managed` cloud service.  
+One unified SaaS platform to collect and analyze logs, metrics, and traces, plus human-powered AI/ML features to improve troubleshooting, reduce response time and help you manage costs.
+
+- Log Management  
+  Based on ELK
+
+- Infrastructure Monitoring  
+  Based on Prometheus
+
+- Distributed Tracing  
+  Based on Jeager

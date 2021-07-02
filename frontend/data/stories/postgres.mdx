@@ -1,0 +1,20 @@
+---
+title: "Postgres"
+publishedAt: "2021-07-02"
+summary: "Database for persisting data"
+tags: "Postgres, opentelemetry"
+cover: "/images/postgres.png"
+---
+
+### Postgres
+
+Postgres version --latest
+This is the database for persisiting information of `views`
+On build a table `STORY_VIEWS` is created
+
+```sql
+CREATE TABLE STORY_VIEWS (
+  id VARCHAR(50) PRIMARY KEY,
+  views INT
+);
+```

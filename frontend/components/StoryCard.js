@@ -27,11 +27,7 @@ const StoryCard = ({ title, summary, cover, tags, slug }) => {
   return (
     <Link href={`/story/${slug}`}>
       <a className="w-full">
-        <img
-          className="h-32 w-full object-cover object-top"
-          src={cover}
-          alt={summary}
-        />
+        <img className="h-32 w-full object-contain" src={cover} alt={summary} />
         <div className="flex items-center bg-white shadow-lg overflow-hidden">
           <div className="px-6 py-4">
             <div className="flex items-baseline">

@@ -92,18 +92,18 @@ export default function Home({ stories }) {
 
             <div className="mt-6 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
               <StoryCard
-                title="Digital Writing"
-                summary="Concept of digital writing and story-telling in year of 2021"
-                tags="Concept, digital writing"
-                cover="/images/dot-concept.jpg"
-                slug="digital-writing"
+                title="Opentelemetry"
+                summary="Openetemetry data for tracing"
+                tags="Opentelemtry, collector"
+                cover="/images/opentelemetry.png"
+                slug="opentelemetry"
               />
               <StoryCard
-                title="Scrollytelling"
-                summary="Playground of a story with scrollytelling, written in MDX and react components"
-                cover="/images/scrollytelling.jpg"
-                tags="scroll, tell"
-                slug="example"
+                title="Api"
+                summary="Node.js API with express web framework"
+                cover="/images/node.png"
+                tags="Node, opentelemetry"
+                slug="api"
               />
             </div>
           </>

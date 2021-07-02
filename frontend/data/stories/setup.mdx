@@ -1,0 +1,90 @@
+---
+title: "Setup"
+publishedAt: "2021-07-02"
+summary: "Setup of Opentelemetry in Node.js and Browsers"
+tags: "opentelemetry"
+cover: "/images/dot-concept.jpg"
+---
+
+# 1. Getting opentelemetry collector configured.
+
+The Collector configuration is located [here](https://github.com/niko-achilles/otlp-logzio-fullstack/blob/main/observability/collector/collector-config.example.yaml)
+
+`Only` tracing is configured for telemetry at the moment.  
+But feel free to adjust the configuration to your needs, then
+
+`Rename` the configuration file to `collector-config.yml`
+
+# 2. Composing with Docker
+
+Have Docker installed on your machine.
+
+Composing, building and running, the `docker-compose` file
+defines in a `declerative way` the containers that should be builded,
+in which order builded, and run in the same `network`.
+
+The docker-compose file is located [here](https://github.com/niko-achilles/otlp-logzio-fullstack/blob/main/docker-compose.yml)
+
+Command: `docker-compose up --build`
+
+You should see similar to this in your terminal.  
+The `State` should have a value of `Up` indicating that the components are up and running
+
+```zsh
+           Name                          Command               State                                        Ports
+------------------------------------------------------------------------------------------------------------------------------------------------------
+stories_api_1                 docker-entrypoint.sh npm r ...   Up      0.0.0.0:5000->5000/tcp,:::5000->5000/tcp
+stories_collector_1           /otelcontribcol --config=/ ...   Up      55679/tcp, 55680/tcp, 0.0.0.0:55681->55681/tcp,:::55681->55681/tcp
+stories_frontend_1            docker-entrypoint.sh yarn  ...   Up      0.0.0.0:3000->3000/tcp,:::3000->3000/tcp
+stories_jaeger-all-in-one_1   /go/bin/all-in-one-linux         Up      0.0.0.0:49154->14250/tcp,:::49154->14250/tcp,
+                                                                       0.0.0.0:49153->14268/tcp,:::49153->14268/tcp,
+                                                                       0.0.0.0:16686->16686/tcp,:::16686->16686/tcp, 5775/udp, 5778/tcp, 6831/udp,
+                                                                       6832/udp
+stories_postgres_1            docker-entrypoint.sh postgres    Up      5432/tcp
+```
+
+# 3. Validating collected telemetry data for tracing
+
+Jaeger tracing data
+
+Command:  
+Open `http://localhost:16686`
+You should see similar to this, in the service tab the services with the name `story_views_api` and `NEXTJS APP`
+
+![](/images/api-postgres-frontend-tracing.png)
+
+Command:  
+Select `story_views_api` and hit on `find traces`.  
+You should see similar to this:
+
+![](/images/api-postgres-tracing-data.png)
+
+Frontend tracing data in the browser console
+
+Command:  
+Open `http://localhost:3000` in your browser and  
+Open `Web developer tools`, `console` tab.
+
+You should see similar to this:
+
+![](/images/frontend-with-tracing-data.png)
+
+# 4. Stopping containers
+
+Command:  
+`docker-compose down` , then  
+you should see similar to this, indicating that the containers are stopped:
+
+```bash
+Stopping stories_frontend_1          ... done
+Stopping stories_api_1               ... done
+Stopping stories_postgres_1          ... done
+Stopping stories_collector_1         ... done
+Stopping stories_jaeger-all-in-one_1 ... done
+Removing stories_frontend_1          ... done
+Removing stories_api_1               ... done
+Removing stories_postgres_1          ... done
+Removing stories_collector_1         ... done
+Removing stories_jaeger-all-in-one_1 ... done
+Removing network stories_default
+```

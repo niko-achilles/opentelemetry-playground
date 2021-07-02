@@ -141,7 +141,7 @@ This is the frontend application created with Nextjs , mdx-remote , tailwind
 and  
 uses [opentelemetry/web](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-web)
 
-Frontend is accessible at `hmttp://localhost:3000/`
+Frontend is accessible at `http://localhost:3000/`
 
 See documentation here for details: [frontend](./frontend/data/stories/frontend.mdx)
 

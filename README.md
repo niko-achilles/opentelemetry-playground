@@ -4,7 +4,7 @@
 
 ![Components Diagram](./diagram.png)
 
-This is a `Fullstack` example of Opentelemetry in Javascript, `Javascript in Browsers` and `Node.js`
+This is a `Fullstack` playground of Opentelemetry in Javascript, `Javascript in Browsers` and `Node.js`
 
 The playgound is made with :sparkling_heart: in order to `learn` and `do`.
 
@@ -243,10 +243,10 @@ warning "@opentelemetry/auto-instrumentations-web > @opentelemetry/instrumentati
 
 ## Actions
 
-As you have noticed the Web App in this playground generates the documentations as static prerendered pages  
+As you have noticed the Nextjs Web App in this playground generates the documentations as static prerendered pages  
 with the usage of `mdx`.
 
-By navigatito the path `localhost:3000/stories/<story-name>` you can  
+By navigating the path `localhost:3000/stories/<story-name>` you can  
 see the detailed documentation of each component (`api`, `frontend`, `opentelemetry`, `postgres`, `setup`)
 
 Try this out: `localhost:3000/stories/api` and see ... the results

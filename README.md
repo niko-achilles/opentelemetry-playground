@@ -230,8 +230,31 @@ See documentation here for details: [opentemetry](./frontend/data/stories/opente
 
 1. Opentelemetry for Javascript in Browsers
 
-investigate on opentelemetry repo what impact the foolowing warning has:
+investigate on opentelemetry repo what impact the following warning has:
 
 ```
 warning "@opentelemetry/auto-instrumentations-web > @opentelemetry/instrumentation-user-interaction@0.22.0" has unmet peer dependency "zone.js@0.11.4"
 ```
+
+## Todo(s)
+
+- learn more about openetelemetry/web
+- learn more about propagators
+
+## Actions
+
+As you have noticed the Web App in this playground generates the documentations as static prerendered pages  
+with the usage of `mdx`.
+
+By navigatito the path `localhost:3000/stories/<story-name>` you can  
+see the detailed documentation of each component (`api`, `frontend`, `opentelemetry`, `postgres`, `setup`)
+
+Try this out: `localhost:3000/stories/api` and see ... the results
+
+Complete the documentation with `interactive examples`
+
+1. [api](./frontend/data/stories/api.mdx)
+2. [frontend](stories/frontend/data/stories/frontend.mdx)
+3. [opentelemetry](./frontend/data/stories/opemtelemetry.mdx)
+4. [postgres](./frontend/data/stories/postgres.mdx)
+5. [setup](./frontend/data/stories/setup.mdx)

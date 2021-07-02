@@ -256,7 +256,7 @@ Try this out: `localhost:3000/stories/api` and see ... the results
 Complete the documentation with `interactive examples`
 
 1. [api](./frontend/data/stories/api.mdx)
-2. [frontend](stories/frontend/data/stories/frontend.mdx)
-3. [opentelemetry](./frontend/data/stories/opemtelemetry.mdx)
+2. [frontend](./frontend/data/stories/frontend.mdx)
+3. [opentelemetry](./frontend/data/stories/opentelemetry.mdx)
 4. [postgres](./frontend/data/stories/postgres.mdx)
 5. [setup](./frontend/data/stories/setup.mdx)

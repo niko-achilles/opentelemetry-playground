@@ -37,3 +37,6 @@ yarn-error.log*
 /postcss-with-plugins
 /nextdocument
 /styles/build/
+
+# concept stories
+concept-stories

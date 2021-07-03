@@ -10,5 +10,5 @@ COPY . .
 
 CMD [ "npm", "start" ]
 
-# build command: docker build -f Dockerfile.dev .
+# build command: docker build -f Dockerfile .
 # run command : docker run -it imageID

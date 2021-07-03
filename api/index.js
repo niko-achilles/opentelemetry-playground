@@ -4,8 +4,6 @@ const express = require("express");
 
 const cors = require("cors");
 
-const { Pool } = require("pg");
-
 const usePostgres = require("./libs/usePostgres");
 
 const openTelemetryAPI = require("@opentelemetry/api");

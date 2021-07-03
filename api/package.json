@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "nodemon",
     "lint": "eslint . --fix",
-    "prestart": "npm run lint",
-    "start": "node index.js"
+    "predev": "npm run lint",
+    "dev": "nodemon -r ./libs/useOpentelemetry.js index.js"
   },
   "keywords": [],
   "author": "",

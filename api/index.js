@@ -1,4 +1,3 @@
-require("./libs/useOpentelemetry");
 const keys = require("./keys");
 
 const express = require("express");

@@ -16,9 +16,9 @@ exporters:
     endpoint: jaeger-all-in-one:14250
     insecure: true
   # UNCOMMENT after you setup a logzio account and get a logzio tracing token
-  logzio:
-    account_token: "your-token"
-    region: "your-region"
+  # logzio:
+  #   account_token: "your-token"
+  #   region: "your-region"
 
 # define span processors
 processors:

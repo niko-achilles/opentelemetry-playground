@@ -27,15 +27,8 @@ module.exports = (name = "", collectorHost, collectorPort) => {
 
   registerInstrumentations({
     tracerProvider: provider,
-    instrumentations: [
-      // Express instrumentation expects HTTP layer to be instrumented
-      // HttpInstrumentation,
-      // ExpressInstrumentation,
-      getNodeAutoInstrumentations(),
-    ],
+    instrumentations: [getNodeAutoInstrumentations()],
   });
-
-  // const url = `http://${keys.collectorHost}:${keys.collectorPort}`;
 
   const exporter = new CollectorTraceExporter({
     url: `http://${collectorHost}:${collectorPort}/v1/trace`,
@@ -43,7 +36,6 @@ module.exports = (name = "", collectorHost, collectorPort) => {
 
   provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
-  // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
   provider.register();
 
   return trace.getTracer(name);

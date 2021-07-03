@@ -3,7 +3,7 @@ version: "3"
 services:
   postgres:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./backend
     environment:
       - POSTGRES_PASSWORD=postgres_password
@@ -12,7 +12,7 @@ services:
 
   api:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./api
     environment:
       - PGUSER=postgres
@@ -43,13 +43,12 @@ services:
 
   collector:
     image: otel/opentelemetry-collector-contrib:0.17.0
+    # FOR debugging purposes, insights of what the collector is doing
     # command: ["--config=/conf/collector-config.yaml", "--log-level=DEBUG"]
     command: ["--config=/conf/collector-config.yaml"]
     volumes:
       - ./observability/collector/collector-config.yaml:/conf/collector-config.yaml
     ports:
-      # - "9464:9464"
-      # - "4317:4317"
       - "55681:55681"
     depends_on:
       - jaeger-all-in-one

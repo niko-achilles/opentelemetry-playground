@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start" ]
 
 # build command: docker build -f Dockerfile.dev .
 # run command : docker run -it imageID

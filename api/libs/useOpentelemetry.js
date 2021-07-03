@@ -1,42 +1,41 @@
 "use strict";
 
+const keys = require("../keys");
 const { NodeTracerProvider } = require("@opentelemetry/node");
 const { BatchSpanProcessor } = require("@opentelemetry/tracing");
 
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+
 const {
-  getNodeAutoInstrumentations,
-} = require("@opentelemetry/auto-instrumentations-node");
+  ExpressInstrumentation,
+} = require("@opentelemetry/instrumentation-express");
+const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
+const { PgInstrumentation } = require("@opentelemetry/instrumentation-pg");
 
 const { CollectorTraceExporter } = require("@opentelemetry/exporter-collector");
 
 const { Resource } = require("@opentelemetry/resources");
 const { ResourceAttributes } = require("@opentelemetry/semantic-conventions");
-const { trace } = require("@opentelemetry/api");
 
-// Logger gives some insight what happens behind the scenes
-// const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
-// diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+const resource = new Resource({
+  [ResourceAttributes.SERVICE_NAME]: keys.appName,
+});
 
-module.exports = (name = "", collectorHost, collectorPort) => {
-  const resource = new Resource({
-    [ResourceAttributes.SERVICE_NAME]: name,
-  });
+const provider = new NodeTracerProvider({ resource });
 
-  const provider = new NodeTracerProvider({ resource });
+registerInstrumentations({
+  tracerProvider: provider,
+  instrumentations: [
+    new PgInstrumentation(),
+    new HttpInstrumentation(),
+    new ExpressInstrumentation(),
+  ],
+});
 
-  registerInstrumentations({
-    tracerProvider: provider,
-    instrumentations: [getNodeAutoInstrumentations()],
-  });
+const exporter = new CollectorTraceExporter({
+  url: `http://${keys.collectorHost}:${keys.collectorPort}/v1/trace`,
+});
 
-  const exporter = new CollectorTraceExporter({
-    url: `http://${collectorHost}:${collectorPort}/v1/trace`,
-  });
+provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
-  provider.addSpanProcessor(new BatchSpanProcessor(exporter));
-
-  provider.register();
-
-  return trace.getTracer(name);
-};
+provider.register();

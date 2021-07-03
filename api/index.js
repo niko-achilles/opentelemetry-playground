@@ -1,29 +1,21 @@
 const keys = require("./keys");
 
-const tracer = require("./libs/useOpentelemetry")(
-  keys.appName,
-  keys.collectorHost,
-  keys.collectorPort
-);
-
 const express = require("express");
 
 const cors = require("cors");
 
 const { Pool } = require("pg");
 
+const usePostgres = require("./libs/usePostgres");
+
 const openTelemetryAPI = require("@opentelemetry/api");
+
+const tracer = openTelemetryAPI.trace.getTracer(keys.appName, "1.0");
 
 const app = express();
 app.use(cors());
 
-const pgClient = new Pool({
-  user: keys.pgUser,
-  host: keys.pgHost,
-  database: keys.pgDatabase,
-  password: keys.pgPassword,
-  port: keys.pgPort,
-});
+const dbClient = usePostgres();
 
 app.get("/", (req, res) => {
   res.send("Hi");
@@ -38,7 +30,7 @@ app.get("/views/:id", async (req, res) => {
 
   currentSpan.setAttribute("story-Id", id);
 
-  const view = await pgClient.query(
+  const view = await dbClient.query(
     `SELECT views from STORY_VIEWS WHERE id=$1`,
     [id]
   );
@@ -72,19 +64,19 @@ const registerView = async (id) => {
   );
 
   let result;
-  const currentView = await pgClient.query(
+  const currentView = await dbClient.query(
     `SELECT views from STORY_VIEWS WHERE id=$1`,
     [id]
   );
   if (currentView.rowCount > 0) {
     const { views } = currentView.rows[0];
     const value = views + 1;
-    result = await pgClient.query(
+    result = await dbClient.query(
       `UPDATE STORY_VIEWS SET views=$1 WHERE id=$2 RETURNING views`,
       [value, id]
     );
   } else {
-    result = await pgClient.query(
+    result = await dbClient.query(
       `INSERT INTO STORY_VIEWS(id, views) VALUES($1, $2) RETURNING views`,
       [id, 1]
     );

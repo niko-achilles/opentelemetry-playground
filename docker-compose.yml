@@ -26,6 +26,9 @@ services:
       - ./api/:/api
     ports:
       - "5000:5000"
+    depends_on:
+      - collector
+      - postgres
 
   frontend:
     build:
@@ -36,6 +39,9 @@ services:
       - ./frontend:/app
     ports:
       - "3000:3000"
+    depends_on:
+      - collector
+      - api
 
   collector:
     image: otel/opentelemetry-collector-contrib:0.17.0
@@ -46,6 +52,8 @@ services:
       - ./observability/collector/collector-config.yaml:/conf/collector-config.yaml
     ports:
       - "55681:55681"
+    depends_on:
+      - jaeger-all-in-one
 
   jaeger-all-in-one:
     build:

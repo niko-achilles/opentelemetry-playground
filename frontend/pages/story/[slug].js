@@ -8,7 +8,7 @@ import StoryLayout from "../../layouts/StoryLayout";
 import dynamic from "next/dynamic";
 
 const DynamicComponentWithNoSSR = dynamic(
-  () => import("../../lib/useOpentemetry"),
+  () => import("../../lib/useOpentelemetry"),
   { ssr: false }
 );
 

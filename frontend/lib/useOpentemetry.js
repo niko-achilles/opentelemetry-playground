@@ -11,8 +11,9 @@ import { WebTracerProvider } from "@opentelemetry/web";
 // import { ZoneContextManager } from "@opentelemetry/context-zone";
 import { CollectorTraceExporter } from "@opentelemetry/exporter-collector";
 
-import { JaegerPropagator } from "@opentelemetry/propagator-jaeger";
+import { B3Propagator } from "@opentelemetry/propagator-b3";
 import { getWebAutoInstrumentations } from "@opentelemetry/auto-instrumentations-web";
+
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
@@ -31,13 +32,15 @@ const useOpentelemetry = (name) => {
   provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
   provider.register({
-    propagator: new JaegerPropagator(),
+    // contextManager: new ZoneContextManager(),
+    propagator: new B3Propagator(),
   });
 
   const instrumentations = getWebAutoInstrumentations({
     "@opentelemetry/instrumentation-xml-http-request": {
-      ignoreUrls: [/localhost/],
+      ignoreUrls: [],
       propagateTraceHeaderCorsUrls: ["http://localhost:3000"],
+      clearTimingResources: true,
     },
   });
 

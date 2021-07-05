@@ -5,11 +5,21 @@ import { MDXRemote } from "next-mdx-remote";
 
 import StoryLayout from "../../layouts/StoryLayout";
 
+import dynamic from "next/dynamic";
+
+const DynamicComponentWithNoSSR = dynamic(
+  () => import("../../lib/useOpentemetry"),
+  { ssr: false }
+);
+
 export default function StoryPage({ mdxSource, frontMatter }) {
   return (
-    <StoryLayout frontMatter={frontMatter}>
-      <MDXRemote {...mdxSource} />
-    </StoryLayout>
+    <>
+      <DynamicComponentWithNoSSR />
+      <StoryLayout frontMatter={frontMatter}>
+        <MDXRemote {...mdxSource} />
+      </StoryLayout>
+    </>
   );
 }
 

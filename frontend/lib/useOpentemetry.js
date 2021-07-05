@@ -15,36 +15,32 @@ import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
 
-const useOpentelemetry = (name) => {
-  const resource = new Resource({
-    [ResourceAttributes.SERVICE_NAME]: name,
-  });
+const resource = new Resource({
+  [ResourceAttributes.SERVICE_NAME]: "NEXTJS APP",
+});
 
-  const provider = new WebTracerProvider({ resource });
+const provider = new WebTracerProvider({ resource });
 
-  provider.addSpanProcessor(
-    new BatchSpanProcessor(new CollectorTraceExporter())
-  );
+provider.addSpanProcessor(new BatchSpanProcessor(new CollectorTraceExporter()));
 
-  provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
-  provider.register({
-    contextManager: new ZoneContextManager(),
-    propagator: new B3Propagator(),
-  });
+provider.register({
+  contextManager: new ZoneContextManager(),
+  propagator: new B3Propagator(),
+});
 
-  const instrumentations = getWebAutoInstrumentations({
-    "@opentelemetry/instrumentation-xml-http-request": {
-      ignoreUrls: [],
-      propagateTraceHeaderCorsUrls: ["http://localhost:3000"],
-      clearTimingResources: true,
-    },
-  });
+const instrumentations = getWebAutoInstrumentations({
+  "@opentelemetry/instrumentation-xml-http-request": {
+    ignoreUrls: [],
+    propagateTraceHeaderCorsUrls: ["http://localhost:3000"],
+    clearTimingResources: true,
+  },
+});
 
-  registerInstrumentations({
-    instrumentations,
-    tracerProvider: provider,
-  });
-};
+registerInstrumentations({
+  instrumentations,
+  tracerProvider: provider,
+});
 
 export default useOpentelemetry;

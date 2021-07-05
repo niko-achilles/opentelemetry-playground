@@ -5,10 +5,7 @@ import {
 } from "@opentelemetry/tracing";
 import { WebTracerProvider } from "@opentelemetry/web";
 
-// not using context manager at the moment, because of the warning
-// "@opentelemetry/auto-instrumentations-web > @opentelemetry/instrumentation-user-interaction@0.22.0"
-// has unmet peer dependency "zone.js@0.11.4"
-// import { ZoneContextManager } from "@opentelemetry/context-zone";
+import { ZoneContextManager } from "@opentelemetry/context-zone";
 import { CollectorTraceExporter } from "@opentelemetry/exporter-collector";
 
 import { B3Propagator } from "@opentelemetry/propagator-b3";
@@ -32,7 +29,7 @@ const useOpentelemetry = (name) => {
   provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
   provider.register({
-    // contextManager: new ZoneContextManager(),
+    contextManager: new ZoneContextManager(),
     propagator: new B3Propagator(),
   });
 

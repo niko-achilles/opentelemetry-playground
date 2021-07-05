@@ -33,7 +33,7 @@ registerInstrumentations({
 });
 
 const exporter = new CollectorTraceExporter({
-  url: `http://${keys.collectorHost}:${keys.collectorPort}/v1/trace`,
+  url: `http://${keys.collectorHost}:${keys.collectorPort}/v1/traces`,
 });
 
 provider.addSpanProcessor(new BatchSpanProcessor(exporter));

@@ -1,5 +1,9 @@
 {
   "root": true,
-  "extends": ["next", "prettier"],
-  "rules": {}
+  "extends": ["next", "eslint:recommended", "prettier"],
+  "rules": {
+    "no-console": "warn",
+    "no-undef": "warn",
+    "no-unused-vars": "warn"
+  }
 }

@@ -44,7 +44,7 @@ services:
       - api
 
   collector:
-    image: otel/opentelemetry-collector-contrib:0.27.0
+    image: otel/opentelemetry-collector-contrib:0.29.0
     # FOR debugging purposes, insights of what the collector is doing
     # command: ["--config=/conf/collector-config.yaml", "--log-level=DEBUG"]
     command: ["--config=/conf/collector-config.yaml"]

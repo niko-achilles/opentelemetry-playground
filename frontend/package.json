@@ -5,7 +5,8 @@
   "author": "niko-achilles",
   "license": "MIT",
   "scripts": {
-    "lint": "next lint",
+    "lint": "next lint --dir pages --dir components --dir layouts --dir lib",
+    "predev": "npm run lint",
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p ${PORT:=3000}"

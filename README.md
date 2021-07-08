@@ -149,7 +149,7 @@ See documentation here for details: [frontend](./frontend/data/stories/frontend.
 
 ##### Collector
 
-version of Collector: otel/opentelemetry-collector-contrib:0.27.0
+version of Collector: otel/opentelemetry-collector-contrib:0.29.0
 
 As described in the [Opentelemetry Documentation](https://opentelemetry.io/docs/concepts/components/)  
 The OpenTelemetry Collector offers a vendor-agnostic implementation on how to receive, process, and export telemetry data. It removes the need to run, operate, and maintain multiple agents/collectors in order to support open-source observability data formats (e.g. Jaeger, Prometheus, etc.) sending to one or more open-source or commercial back-ends. The Collector is the default location instrumentation libraries export their telemetry data.

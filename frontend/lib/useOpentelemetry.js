@@ -26,7 +26,9 @@ const useOpentelemetry = () => {
     new SimpleSpanProcessor(
       new CollectorTraceExporter({
         url: "http://localhost:55681/v1/traces",
-        headers: {},
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
     )
   );

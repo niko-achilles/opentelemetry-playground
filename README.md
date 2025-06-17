@@ -2,7 +2,7 @@
 
 ## Opentelemetry in Javascript (Javascript in Browsers and Node.js)
 
-![Components Diagram](./diagram.png)
+![](./frontend/public/images/frontend-tracing-data.png)
 
 This is a `Fullstack` playground of Opentelemetry in Javascript, `Javascript in Browsers` and `Node.js`
 
@@ -72,9 +72,6 @@ You should see similar to this:
 
 Command:  
 Select `NEXTJS APP` and hit on `find traces`.  
-You should see similar to this:
-
-![](./frontend/public/images/frontend-tracing-data.png)
 
 Frontend tracing data in the browser console
 
@@ -205,30 +202,6 @@ Jaeger is accessible at: http://localhost:16686/
 
 See documentation here for details: [opentemetry](./frontend/data/stories/opentelemetry.mdx)
 
-##### Logzio
-
-`Logzio` for tracing additionally to local `Jaeger`.  
-Start a free trial at [Logz.io](https://logz.io/freetrial/)
-
-Why Logzio ?
-
-With `Logz.io` you can have the best-of-breed open source monitoring tools on a `fully managed` cloud service.  
-One unified SaaS platform to collect and analyze logs, metrics, and traces, plus human-powered AI/ML features to improve troubleshooting, reduce response time and help you manage costs.
-
-- Log Management  
-  Based on ELK
-
-- Infrastructure Monitoring  
-  Based on Prometheus
-
-- Distributed Tracing  
-  Based on Jeager
-
-See documentation here for details: [opentemetry](./frontend/data/stories/opentelemetry.mdx)
-
-## Todo(s)
-
-- learn more about propagators
 
 ## Actions
 

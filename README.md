@@ -2,7 +2,7 @@
 
 ## Opentelemetry in Javascript (Javascript in Browsers and Node.js)
 
-![](./frontend/public/images/frontend-tracing-data.png)
+![](./frontend/public/images/frontend-with-tracing-data-console.png)
 
 This is a `Fullstack` playground of Opentelemetry in Javascript, `Javascript in Browsers` and `Node.js`
 
